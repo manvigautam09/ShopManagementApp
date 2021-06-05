@@ -1,9 +1,12 @@
 import React, {useMemo, useState} from 'react';
-import {SafeAreaView, TextInput, StyleSheet, Button} from 'react-native';
+import {SafeAreaView, TextInput, StyleSheet, Button, Text} from 'react-native';
+
+import {useAuthHook} from '../../store/hooks/authHook';
 
 const LoginScreen = () => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const {loginUser, loggingIn} = useAuthHook();
 
   const loginButtonDisabled = useMemo(
     () => userName.length === 0 || password.length === 0,
@@ -26,12 +29,16 @@ const LoginScreen = () => {
         onChangeText={passWord => setPassword(passWord)}
       />
 
-      <Button
-        color="blue"
-        title={'Login'}
-        disabled={loginButtonDisabled}
-        onPress={() => console.log('###onPress', userName, password)}
-      />
+      {loggingIn ? (
+        <Text>'Logging You In ...'</Text>
+      ) : (
+        <Button
+          color="blue"
+          title={'Login'}
+          disabled={loginButtonDisabled || loggingIn}
+          onPress={() => loginUser(userName, password)}
+        />
+      )}
     </SafeAreaView>
   );
 };
