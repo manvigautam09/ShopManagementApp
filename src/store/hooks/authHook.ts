@@ -4,6 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {ROUTE_CONSTANTS} from '../../utils/routeConstants';
 import {
+  getTokenFromAsyncStorageFailure,
+  getTokenFromAsyncStorageRequest,
+  getTokenFromAsyncStorageSuccess,
   getUserDataFailure,
   getUserDataRequest,
   getUserDataSuccess,
@@ -55,4 +58,23 @@ export const useFetchUserDetailsHook = () => {
   };
 
   return {fetchDetails};
+};
+
+export const useCheckIfUserLoggedInHook = () => {
+  const dispatch = useDispatch();
+
+  const fetchToken = async () => {
+    dispatch(getTokenFromAsyncStorageRequest());
+    try {
+      const authToken = await AsyncStorage.getItem('@authToken');
+      if (authToken && authToken.length > 0) {
+        console.log('### ', authToken);
+        dispatch(getTokenFromAsyncStorageSuccess({token: authToken}));
+      }
+    } catch (e) {
+      dispatch(getTokenFromAsyncStorageFailure());
+    }
+  };
+
+  return {fetchToken};
 };
