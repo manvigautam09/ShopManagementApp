@@ -5,7 +5,7 @@ import {
   getUserDataFailure,
   getUserDataRequest,
   getUserDataSuccess,
-} from '../actions/userActions';
+} from '../../actions/userActions';
 
 export interface AuthState {
   name: string;

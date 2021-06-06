@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
@@ -7,22 +7,19 @@ import {
   useFetchUserDetailsHook,
 } from '../../store/hooks/authHook';
 
+import {
+  useCreateShopHook,
+  useGetShopDetailsHook,
+} from '../../store/hooks/shopHook';
 import Button from '../../components/shared/Button';
 import CustomTextInput from '../../components/shared/CustomTextInput';
 
 const CreateShopScreen = () => {
   const {fetchDetails} = useFetchUserDetailsHook();
   const {name, loadingData} = useGetUserDetailsHook();
-  const [createShopModule, setCreateShopModule] = useState(false);
-  const [shop, setShop] = useState({
-    shopName: '',
-    shopDescription: '',
-    products: [],
-  });
-
-  const toggleCreateShop = useCallback(() => {
-    setCreateShopModule(!createShopModule);
-  }, [createShopModule]);
+  const {creatingShop} = useGetShopDetailsHook();
+  const {shop, createShopModule, setShop, createShop, toggleCreateShop} =
+    useCreateShopHook();
 
   useEffect(() => {
     if (name.length === 0) {
@@ -60,15 +57,22 @@ const CreateShopScreen = () => {
               }
             />
           </View>
-          <View style={styles.alignAddShopButton}>
-            <Button
-              title="Add Shop"
-              disabled={
-                shop.shopName.length === 0 || shop.shopDescription.length === 0
-              }
-              onPress={() => console.log('###')}
-            />
-          </View>
+          {creatingShop ? (
+            <Text>LOADING ...</Text>
+          ) : (
+            <View style={styles.alignAddShopButton}>
+              <Button
+                title="Add Shop"
+                disabled={
+                  shop.shopName.length === 0 ||
+                  shop.shopDescription.length === 0
+                }
+                onPress={() =>
+                  createShop(shop.shopName, shop.shopDescription, shop.products)
+                }
+              />
+            </View>
+          )}
         </React.Fragment>
       )}
     </SafeAreaView>

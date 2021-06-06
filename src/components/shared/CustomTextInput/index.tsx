@@ -22,7 +22,7 @@ export default CustomTextInput;
 
 const styles = StyleSheet.create({
   input: {
-    borderWidth: 4,
+    borderWidth: 3,
     borderColor: 'black',
     borderRadius: 10,
     height: '100%',
