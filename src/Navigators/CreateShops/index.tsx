@@ -10,21 +10,26 @@ import {
 import {
   useCreateShopHook,
   useGetShopDetailsHook,
+  useGetShopsListHook,
 } from '../../store/hooks/shopHook';
 import Button from '../../components/shared/Button';
 import CustomTextInput from '../../components/shared/CustomTextInput';
+import {Shops} from '../../store/reducers/shopReducer/type';
 
 const CreateShopScreen = () => {
+  const {getShop} = useGetShopsListHook();
   const {fetchDetails} = useFetchUserDetailsHook();
   const {name, loadingData} = useGetUserDetailsHook();
-  const {creatingShop} = useGetShopDetailsHook();
+  const {shops, gettingShop, creatingShop} = useGetShopDetailsHook();
   const {shop, createShopModule, setShop, createShop, toggleCreateShop} =
     useCreateShopHook();
+  console.log('###', shops);
 
   useEffect(() => {
     if (name.length === 0) {
       fetchDetails();
     }
+    getShop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -37,7 +42,7 @@ const CreateShopScreen = () => {
           onPress={toggleCreateShop}
         />
       </View>
-      {createShopModule && (
+      {createShopModule ? (
         <React.Fragment>
           <View style={styles.inputView}>
             <Text>Shop Name</Text>
@@ -74,6 +79,18 @@ const CreateShopScreen = () => {
             </View>
           )}
         </React.Fragment>
+      ) : gettingShop ? (
+        <Text>Loading Shops...</Text>
+      ) : shops.length > 0 ? (
+        <View>
+          {shops.map((shopDetail: Shops) => (
+            <View key={Object.values(shopDetail)[0].id}>
+              <Text>{Object.values(shopDetail)[0].name}</Text>
+            </View>
+          ))}
+        </View>
+      ) : (
+        <Text>There are no shops yet</Text>
       )}
     </SafeAreaView>
   );
