@@ -10,6 +10,7 @@ import {
   useGetUserDetailsHook,
 } from '../store/hooks/authHook';
 import SplashScreen from './SplashScreen';
+import ProductsScreen from './ProductsScreen';
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,11 @@ export const ShopStack = () => {
       <Stack.Screen
         name={ROUTE_CONSTANTS.CREATE_SHOP}
         component={CreateShopScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={ROUTE_CONSTANTS.PRODUCTS_IN_SHOP}
+        component={ProductsScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

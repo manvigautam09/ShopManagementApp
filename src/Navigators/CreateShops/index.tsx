@@ -17,7 +17,12 @@ import CustomTextInput from '../../components/shared/CustomTextInput';
 import {Shops} from '../../store/reducers/shopReducer/type';
 import ShopDisplay from '../../components/ShopDisplay';
 
-const CreateShopScreen = () => {
+interface CreateShopScreenProps {
+  navigation: any;
+}
+
+const CreateShopScreen = (props: CreateShopScreenProps) => {
+  const {navigation} = props;
   const {getShop} = useGetShopsListHook();
   const {fetchDetails} = useFetchUserDetailsHook();
   const {name, loadingData} = useGetUserDetailsHook();
@@ -87,6 +92,7 @@ const CreateShopScreen = () => {
             <ShopDisplay
               key={Object.values(shopDetail)[0].id}
               shopDetail={shopDetail}
+              navigation={navigation}
             />
           ))}
         </View>

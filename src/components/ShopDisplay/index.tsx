@@ -1,20 +1,29 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {Shops} from '../../store/reducers/shopReducer/type';
+import {ROUTE_CONSTANTS} from '../../utils/routeConstants';
 
 interface ShopDisplayProps {
   shopDetail: Shops;
+  navigation: any;
 }
 const ShopDisplay = (props: ShopDisplayProps) => {
-  const {shopDetail} = props;
+  const {shopDetail, navigation} = props;
   return (
-    <View key={Object.values(shopDetail)[0].id} style={styles.shopContainer}>
+    <TouchableOpacity
+      key={Object.values(shopDetail)[0].id}
+      style={styles.shopContainer}
+      onPress={() =>
+        navigation.navigate(ROUTE_CONSTANTS.PRODUCTS_IN_SHOP, {
+          shopDetailId: Object.values(shopDetail)[0].id,
+        })
+      }>
       <View style={styles.bioSection}>
         <Text>{Object.values(shopDetail)[0].name}</Text>
         <Text>{Object.values(shopDetail)[0].description}</Text>
       </View>
       <Text>Product Count: {Object.values(shopDetail)[0].products.length}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
