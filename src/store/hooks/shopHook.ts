@@ -20,6 +20,7 @@ export const useGetShopDetailsHook = () => {
 export const useCreateShopHook = () => {
   const dispatch = useDispatch();
   const [createShopModule, setCreateShopModule] = useState(false);
+  const {getShop} = useGetShopsListHook();
 
   const [shop, setShop] = useState({
     shopName: '',
@@ -54,6 +55,7 @@ export const useCreateShopHook = () => {
 
       dispatch(createShopSuccess());
       toggleCreateShop();
+      getShop();
       setShop({shopName: '', shopDescription: '', products: ''});
     } catch (error) {
       dispatch(createShopFailure());

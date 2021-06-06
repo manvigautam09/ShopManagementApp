@@ -15,6 +15,7 @@ import {
 import Button from '../../components/shared/Button';
 import CustomTextInput from '../../components/shared/CustomTextInput';
 import {Shops} from '../../store/reducers/shopReducer/type';
+import ShopDisplay from '../../components/ShopDisplay';
 
 const CreateShopScreen = () => {
   const {getShop} = useGetShopsListHook();
@@ -23,7 +24,6 @@ const CreateShopScreen = () => {
   const {shops, gettingShop, creatingShop} = useGetShopDetailsHook();
   const {shop, createShopModule, setShop, createShop, toggleCreateShop} =
     useCreateShopHook();
-  console.log('###', shops);
 
   useEffect(() => {
     if (name.length === 0) {
@@ -82,11 +82,12 @@ const CreateShopScreen = () => {
       ) : gettingShop ? (
         <Text>Loading Shops...</Text>
       ) : shops.length > 0 ? (
-        <View>
+        <View style={styles.shopListWidth}>
           {shops.map((shopDetail: Shops) => (
-            <View key={Object.values(shopDetail)[0].id}>
-              <Text>{Object.values(shopDetail)[0].name}</Text>
-            </View>
+            <ShopDisplay
+              key={Object.values(shopDetail)[0].id}
+              shopDetail={shopDetail}
+            />
           ))}
         </View>
       ) : (
@@ -124,5 +125,8 @@ const styles = StyleSheet.create({
     height: 50,
     paddingTop: 10,
     marginTop: 20,
+  },
+  shopListWidth: {
+    width: '100%',
   },
 });
