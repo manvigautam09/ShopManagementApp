@@ -68,7 +68,6 @@ export const useCheckIfUserLoggedInHook = () => {
     try {
       const authToken = await AsyncStorage.getItem('@authToken');
       if (authToken && authToken.length > 0) {
-        console.log('### ', authToken);
         dispatch(getTokenFromAsyncStorageSuccess({token: authToken}));
       }
     } catch (e) {
