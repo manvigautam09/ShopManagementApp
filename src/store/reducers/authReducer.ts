@@ -13,7 +13,7 @@ export default (state = initialState, action: AuthActions) => {
     }
 
     case actionTypes.GET_USER_DATA_SUCCESS: {
-      return {...state, loadingData: false};
+      return {...state, loadingData: false, name: action.payload.name};
     }
 
     case actionTypes.GET_USER_DATA_FAILURE: {

@@ -1,19 +1,20 @@
 import {actionTypes} from '../actionTypes';
 
-export const getUserDataRequest = () => {
+export function getUserDataRequest() {
   return <const>{
     type: actionTypes.GET_USER_DATA_REQUEST,
   };
-};
+}
 
-export const getUserDataSuccess = () => {
+export function getUserDataSuccess(payload: {name: string}) {
   return <const>{
     type: actionTypes.GET_USER_DATA_SUCCESS,
+    payload,
   };
-};
+}
 
-export const getUserDataFailure = () => {
+export function getUserDataFailure() {
   return <const>{
     type: actionTypes.GET_USER_DATA_FAILURE,
   };
-};
+}

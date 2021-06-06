@@ -3,16 +3,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import LoginScreen from './LoginScreen';
+import CreateShopScreen from './CreateShops';
+import {ROUTE_CONSTANTS} from '../utils/routeConstants';
 
 const Stack = createStackNavigator();
-
-const NAVIGATION_CONSTANTS = {
-  AUTH: 'auth',
-};
-
-const ROUTE_CONSTANTS = {
-  LOGIN: 'LoginScreen',
-};
 
 const AuthStack = () => {
   return (
@@ -26,13 +20,30 @@ const AuthStack = () => {
   );
 };
 
+export const ShopStack = () => {
+  return (
+    <Stack.Navigator initialRouteName={ROUTE_CONSTANTS.CREATE_SHOP}>
+      <Stack.Screen
+        name={ROUTE_CONSTANTS.CREATE_SHOP}
+        component={CreateShopScreen}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const RootNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={NAVIGATION_CONSTANTS.AUTH}>
+      <Stack.Navigator initialRouteName={ROUTE_CONSTANTS.LOGIN}>
         <Stack.Screen
           component={AuthStack}
-          name={NAVIGATION_CONSTANTS.AUTH}
+          name={ROUTE_CONSTANTS.LOGIN}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          component={ShopStack}
+          name={ROUTE_CONSTANTS.CREATE_SHOP}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
