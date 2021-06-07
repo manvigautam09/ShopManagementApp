@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {
@@ -87,7 +87,10 @@ const CreateShopScreen = (props: CreateShopScreenProps) => {
       ) : gettingShop ? (
         <Text>Loading Shops...</Text>
       ) : shops.length > 0 ? (
-        <View style={styles.shopListWidth}>
+        <ScrollView
+          style={styles.shopListWidth}
+          showsVerticalScrollIndicator={false}
+          bounces={false}>
           {shops.map((shopDetail: Shops) => (
             <ShopDisplay
               key={Object.values(shopDetail)[0].id}
@@ -95,7 +98,7 @@ const CreateShopScreen = (props: CreateShopScreenProps) => {
               navigation={navigation}
             />
           ))}
-        </View>
+        </ScrollView>
       ) : (
         <Text>There are no shops yet</Text>
       )}
@@ -134,5 +137,6 @@ const styles = StyleSheet.create({
   },
   shopListWidth: {
     width: '100%',
+    flex: 1,
   },
 });

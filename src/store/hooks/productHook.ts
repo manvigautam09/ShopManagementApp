@@ -1,50 +1,104 @@
 import {useCallback, useState} from 'react';
-import {Products} from '../reducers/shopReducer/type';
+import {v4 as uuidv4} from 'uuid';
+import {useDispatch} from 'react-redux';
+
+import {
+  addProductFailure,
+  addProductRequest,
+  addProductSuccess,
+} from '../actions/shopActions';
+import {Products, Shops} from '../reducers/shopReducer/type';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useGetShopsListHook} from './shopHook';
+
+export const initialProductState = {
+  prId: '',
+  prName: '',
+  prDescription: '',
+  prPrice: '0',
+  prAvailability: false,
+  prTags: '',
+} as Products;
 
 export const useCreateProductHook = () => {
+  const [product, setProduct] = useState(initialProductState);
+  const [mode, setMode] = useState('CREATE' as 'CREATE' | 'EDIT');
+
   const [createProductModule, setCreateProductModule] = useState(false);
-  const [product, setProduct] = useState({
-    prId: '',
-    prName: '',
-    prDescription: '',
-    prPrice: '0',
-    prAvailability: false,
-    prTags: '',
-  } as Products);
 
   const toggleCreateProduct = useCallback(() => {
     setCreateProductModule(!createProductModule);
   }, [createProductModule]);
 
-  //   const createShop = async (
-  //     name: string,
-  //     description: string,
-  //     products: [],
-  //   ) => {
-  //     dispatch(createShopRequest());
-  //     try {
-  //       let shopObjString = {
-  //         [name]: {name, description, products, id: uuidv4()},
-  //       };
-  //       const oldShops = await AsyncStorage.getItem('@shops');
+  const dispatch = useDispatch();
+  const {getShop} = useGetShopsListHook();
 
-  //       if (oldShops) {
-  //         await AsyncStorage.setItem(
-  //           '@shops',
-  //           JSON.stringify([...JSON.parse(oldShops), shopObjString]),
-  //         );
-  //       } else {
-  //         await AsyncStorage.setItem('@shops', JSON.stringify([shopObjString]));
-  //       }
+  const createEditProduct = async (shopId: string) => {
+    dispatch(addProductRequest());
+    try {
+      let productDetails = {
+        prId: uuidv4(),
+        prName: product.prName,
+        prDescription: product.prDescription,
+        prPrice: product.prPrice,
+        prAvailability: product.prAvailability,
+        prTags: product.prTags,
+      };
+      const oldShops = await AsyncStorage.getItem('@shops');
+      if (oldShops) {
+        const oldShopsJson = JSON.parse(oldShops);
+        if (mode === 'CREATE') {
+          let updatedShops = oldShopsJson.map((shopDetail: Shops) => {
+            let details: any = Object.values(shopDetail)[0];
+            if (details.id === shopId) {
+              details.products = [...details.products, productDetails];
+            }
+            return {[details.name]: details};
+          });
+          await AsyncStorage.setItem('@shops', JSON.stringify(updatedShops));
+        } else {
+          let updatedShops = oldShopsJson.map((shopDetail: Shops) => {
+            let details: any = Object.values(shopDetail)[0];
+            if (details.id === shopId) {
+              details.products = details.products.map(
+                (productDetail: Products) => {
+                  let pDetails = productDetail;
+                  if (productDetail.prId === product.prId) {
+                    pDetails = product;
+                  }
+                  return pDetails;
+                },
+              );
+            }
+            return {[details.name]: details};
+          });
+          await AsyncStorage.setItem('@shops', JSON.stringify(updatedShops));
+        }
+      }
 
-  //       dispatch(createShopSuccess());
-  //       toggleCreateShop();
-  //       getShop();
-  //       setShop({shopName: '', shopDescription: '', products: ''});
-  //     } catch (error) {
-  //       dispatch(createShopFailure());
-  //     }
-  //   };
+      dispatch(addProductSuccess());
+      toggleCreateProduct();
+      setProduct({
+        prId: '',
+        prName: '',
+        prDescription: '',
+        prPrice: '0',
+        prAvailability: false,
+        prTags: '',
+      });
+      getShop();
+    } catch (error) {
+      dispatch(addProductFailure());
+    }
+  };
 
-  return {product, createProductModule, setProduct, toggleCreateProduct};
+  return {
+    mode,
+    product,
+    createProductModule,
+    setMode,
+    setProduct,
+    createEditProduct,
+    toggleCreateProduct,
+  };
 };

@@ -9,9 +9,9 @@ interface ShopDisplayProps {
 }
 const ShopDisplay = (props: ShopDisplayProps) => {
   const {shopDetail, navigation} = props;
+
   return (
     <TouchableOpacity
-      key={Object.values(shopDetail)[0].id}
       style={styles.shopContainer}
       onPress={() =>
         navigation.navigate(ROUTE_CONSTANTS.PRODUCTS_IN_SHOP, {

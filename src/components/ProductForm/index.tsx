@@ -8,10 +8,13 @@ import {Products} from '../../store/reducers/shopReducer/type';
 interface ProductFormProps {
   product: Products;
   setProduct: Dispatch<SetStateAction<Products>>;
+  onSubmit: (shopId: string) => Promise<void>;
+  shopId: string;
+  mode: 'CREATE' | 'EDIT';
 }
 
 const ProductForm = (props: ProductFormProps) => {
-  const {product, setProduct} = props;
+  const {product, shopId, mode, setProduct, onSubmit} = props;
 
   return (
     <React.Fragment>
@@ -68,15 +71,13 @@ const ProductForm = (props: ProductFormProps) => {
       ) : (
         <View style={styles.alignAddProductButton}>
           <Button
-            title="Add Product"
+            title={`${mode === 'CREATE' ? 'Add' : 'Edit'} Product`}
             disabled={
               Number(product.prPrice) === 0 ||
               product.prName.length === 0 ||
               product.prDescription.length === 0
             }
-            //   onPress={() =>
-            //     createShop(shop.shopName, shop.shopDescription, shop.products)
-            //   }
+            onPress={() => onSubmit(shopId)}
           />
         </View>
       )}
