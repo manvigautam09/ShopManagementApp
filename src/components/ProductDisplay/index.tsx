@@ -10,14 +10,16 @@ interface ProductDisplayProps {
   toggleCreateProduct: () => any;
   setMode: React.Dispatch<React.SetStateAction<'CREATE' | 'EDIT'>>;
   setProduct: React.Dispatch<React.SetStateAction<Products>>;
+  deleteProduct: (shopId: string, productId: string) => Promise<void>;
 }
 const ProductDisplay = (props: ProductDisplayProps) => {
   const {
     shopId,
     productDetail,
     navigation,
-    setProduct,
     setMode,
+    setProduct,
+    deleteProduct,
     toggleCreateProduct,
   } = props;
 
@@ -50,7 +52,9 @@ const ProductDisplay = (props: ProductDisplayProps) => {
             }}>
             E
           </Text>
-          <Text> D</Text>
+          <Text onPress={() => deleteProduct(shopId, productDetail.prId)}>
+            D
+          </Text>
         </View>
       </View>
     </TouchableOpacity>

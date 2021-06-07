@@ -6,6 +6,9 @@ import {
   addProductFailure,
   addProductRequest,
   addProductSuccess,
+  deleteProductFailure,
+  deleteProductRequest,
+  deleteProductSuccess,
 } from '../actions/shopActions';
 import {Products, Shops} from '../reducers/shopReducer/type';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -101,4 +104,35 @@ export const useCreateProductHook = () => {
     createEditProduct,
     toggleCreateProduct,
   };
+};
+
+export const useDeleteProductHook = () => {
+  const dispatch = useDispatch();
+  const {getShop} = useGetShopsListHook();
+
+  const deleteProduct = async (shopId: string, productId: string) => {
+    dispatch(deleteProductRequest());
+    try {
+      const oldShops = await AsyncStorage.getItem('@shops');
+      if (oldShops) {
+        const oldShopsJson = JSON.parse(oldShops);
+        const updatedShops = oldShopsJson.map((shopDetailObj: Shops) => {
+          let shopDetail = Object.values(shopDetailObj)[0];
+          if (shopDetail.id === shopId) {
+            shopDetail.products = shopDetail.products.filter(
+              (prDetail: Products) => prDetail.prId !== productId,
+            );
+          }
+          return {[shopDetail.name]: shopDetail};
+        });
+        console.log('###', updatedShops);
+        await AsyncStorage.setItem('@shops', JSON.stringify(updatedShops));
+        dispatch(deleteProductSuccess());
+        getShop();
+      }
+    } catch (error) {
+      dispatch(deleteProductFailure());
+    }
+  };
+  return {deleteProduct};
 };

@@ -8,6 +8,7 @@ import {useGetShopDetailsHook} from '../../store/hooks/shopHook';
 import {
   initialProductState,
   useCreateProductHook,
+  useDeleteProductHook,
 } from '../../store/hooks/productHook';
 import {Products, Shops} from '../../store/reducers/shopReducer/type';
 
@@ -29,6 +30,7 @@ const ProductsScreen = (props: ProductsScreenProps) => {
     setProduct,
     toggleCreateProduct,
   } = useCreateProductHook();
+  const {deleteProduct} = useDeleteProductHook();
 
   const currentShop: Shops = useMemo(
     () =>
@@ -76,11 +78,12 @@ const ProductsScreen = (props: ProductsScreenProps) => {
             <ProductDisplay
               productDetail={productDetail}
               navigation={navigation}
-              shopId={route.params.shopDetailId}
               key={productDetail.prId}
-              toggleCreateProduct={toggleCreateProduct}
+              shopId={route.params.shopDetailId}
               setMode={setMode}
               setProduct={setProduct}
+              deleteProduct={deleteProduct}
+              toggleCreateProduct={toggleCreateProduct}
             />
           ))}
         </ScrollView>
