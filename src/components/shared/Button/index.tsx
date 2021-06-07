@@ -32,5 +32,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'grey',
     borderRadius: 12,
+    display: 'flex',
+    alignItems: 'center',
   },
 });

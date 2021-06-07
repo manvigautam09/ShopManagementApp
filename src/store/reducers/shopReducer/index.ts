@@ -5,6 +5,9 @@ const initialState: ShopState = {
   creatingShop: false,
   gettingShop: false,
   shops: [],
+  addingProduct: false,
+  editingProduct: false,
+  deletingProduct: false,
 };
 
 export default (state = initialState, action: ShopActions) => {
@@ -31,6 +34,42 @@ export default (state = initialState, action: ShopActions) => {
 
     case actionTypes.GET_SHOP_DETAILS_FAILURE: {
       return {...state, gettingShop: false};
+    }
+
+    case actionTypes.ADD_PRODUCT_REQUEST: {
+      return {...state, addingProduct: true};
+    }
+
+    case actionTypes.ADD_PRODUCT_SUCCESS: {
+      return {...state, addingProduct: false};
+    }
+
+    case actionTypes.ADD_PRODUCT_SUCCESS: {
+      return {...state, addingProduct: false};
+    }
+
+    case actionTypes.EDIT_PRODUCT_REQUEST: {
+      return {...state, editingProduct: true};
+    }
+
+    case actionTypes.EDIT_PRODUCT_SUCCESS: {
+      return {...state, editingProduct: false};
+    }
+
+    case actionTypes.EDIT_PRODUCT_SUCCESS: {
+      return {...state, editingProduct: false};
+    }
+
+    case actionTypes.DELETE_PRODUCT_REQUEST: {
+      return {...state, deletingProduct: true};
+    }
+
+    case actionTypes.DELETE_PRODUCT_SUCCESS: {
+      return {...state, deletingProduct: false};
+    }
+
+    case actionTypes.DELETE_PRODUCT_SUCCESS: {
+      return {...state, deletingProduct: false};
     }
 
     default:

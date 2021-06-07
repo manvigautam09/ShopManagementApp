@@ -1,16 +1,28 @@
 import {
+  addProductFailure,
+  addProductRequest,
+  addProductSuccess,
   createShopFailure,
   createShopRequest,
   createShopSuccess,
+  deleteProductFailure,
+  deleteProductRequest,
+  deleteProductSuccess,
+  editProductFailure,
+  editProductRequest,
+  editProductSuccess,
   getShopDetailsFailure,
   getShopDetailsRequest,
   getShopDetailsSuccess,
 } from '../../actions/shopActions';
 
 export interface ShopState {
-  creatingShop: boolean;
-  gettingShop: boolean;
   shops: [];
+  gettingShop: boolean;
+  creatingShop: boolean;
+  addingProduct: boolean;
+  editingProduct: boolean;
+  deletingProduct: boolean;
 }
 
 export type ShopActions = ReturnType<
@@ -20,15 +32,24 @@ export type ShopActions = ReturnType<
   | typeof getShopDetailsRequest
   | typeof getShopDetailsSuccess
   | typeof getShopDetailsFailure
+  | typeof addProductRequest
+  | typeof addProductSuccess
+  | typeof addProductFailure
+  | typeof editProductRequest
+  | typeof editProductSuccess
+  | typeof editProductFailure
+  | typeof deleteProductRequest
+  | typeof deleteProductSuccess
+  | typeof deleteProductFailure
 >;
 
 export interface Products {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  tags: string;
-  availability: boolean;
+  prId: string;
+  prName: string;
+  prDescription: string;
+  prPrice: string;
+  prTags: string;
+  prAvailability: boolean;
 }
 export interface Shops {
   id: string;
