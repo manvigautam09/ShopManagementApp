@@ -2,7 +2,10 @@ import {useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {ROUTE_CONSTANTS} from '../../utils/routeConstants';
+import {
+  NAVIGATION_CONSTANTS,
+  ROUTE_CONSTANTS,
+} from '../../utils/routeConstants';
 import {
   getTokenFromAsyncStorageFailure,
   getTokenFromAsyncStorageRequest,
@@ -69,6 +72,8 @@ export const useCheckIfUserLoggedInHook = () => {
       const authToken = await AsyncStorage.getItem('@authToken');
       if (authToken && authToken.length > 0) {
         dispatch(getTokenFromAsyncStorageSuccess({token: authToken}));
+      } else {
+        dispatch(getTokenFromAsyncStorageFailure());
       }
     } catch (e) {
       dispatch(getTokenFromAsyncStorageFailure());
