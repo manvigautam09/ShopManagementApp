@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   createProductContainer: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#E0FFFF',
     padding: 10,
   },
   descriptionView: {

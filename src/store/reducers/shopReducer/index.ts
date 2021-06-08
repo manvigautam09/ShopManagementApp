@@ -72,6 +72,10 @@ export default (state = initialState, action: ShopActions) => {
       return {...state, deletingProduct: false};
     }
 
+    case actionTypes.SIGN_OUT_SUCCESS: {
+      return {...state, shops: []};
+    }
+
     default:
       return state;
   }

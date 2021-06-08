@@ -6,6 +6,7 @@ const initialState: AuthState = {
   token: '',
   loadingData: false,
   loadingToken: false,
+  signingOut: false,
 };
 
 export default (state = initialState, action: AuthActions) => {
@@ -36,6 +37,18 @@ export default (state = initialState, action: AuthActions) => {
 
     case actionTypes.USER_LOGIN_SUCCESS: {
       return {...state, name: action.payload.name, token: action.payload.token};
+    }
+
+    case actionTypes.SIGN_OUT_REQUEST: {
+      return {...state, signingOut: true};
+    }
+
+    case actionTypes.SIGN_OUT_SUCCESS: {
+      return {...state, signingOut: false, token: '', name: ''};
+    }
+
+    case actionTypes.SIGN_OUT_FAILURE: {
+      return {...state, signingOut: false};
     }
 
     default:

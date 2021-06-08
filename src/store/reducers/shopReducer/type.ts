@@ -15,6 +15,7 @@ import {
   getShopDetailsRequest,
   getShopDetailsSuccess,
 } from '../../actions/shopActions';
+import {signOutSuccess} from '../../actions/userActions';
 
 export interface ShopState {
   shops: [];
@@ -41,6 +42,7 @@ export type ShopActions = ReturnType<
   | typeof deleteProductRequest
   | typeof deleteProductSuccess
   | typeof deleteProductFailure
+  | typeof signOutSuccess
 >;
 
 export interface Products {

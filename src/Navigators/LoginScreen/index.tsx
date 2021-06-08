@@ -1,7 +1,8 @@
 import React, {useMemo, useState} from 'react';
-import {SafeAreaView, TextInput, StyleSheet, Button, Text} from 'react-native';
+import {SafeAreaView, TextInput, StyleSheet, Text} from 'react-native';
 
 import {useAuthHook} from '../../store/hooks/authHook';
+import Button from '../../components/shared/Button';
 
 const LoginScreen = () => {
   const [userName, setUserName] = useState('');
@@ -15,12 +16,15 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.heading}>Shop Management</Text>
+      <Text style={styles.formLabels}>Name</Text>
       <TextInput
         value={userName}
         style={styles.input}
         placeholder={'Username'}
         onChangeText={username => setUserName(username)}
       />
+      <Text style={styles.formLabels}>Password</Text>
       <TextInput
         value={password}
         style={styles.input}
@@ -33,7 +37,6 @@ const LoginScreen = () => {
         <Text>'Logging You In ...'</Text>
       ) : (
         <Button
-          color="blue"
           title={'Login'}
           disabled={loginButtonDisabled || loggingIn}
           onPress={() => loginUser(userName, password)}
@@ -50,7 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#E0FFFF',
   },
   input: {
     width: 200,
@@ -58,6 +61,17 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
-    marginBottom: 10,
+    marginBottom: 20,
+  },
+  heading: {
+    fontSize: 35,
+    marginBottom: 40,
+    fontWeight: '500',
+    fontFamily: 'Times New Roman',
+  },
+  formLabels: {
+    display: 'flex',
+    alignSelf: 'flex-start',
+    marginLeft: 95,
   },
 });

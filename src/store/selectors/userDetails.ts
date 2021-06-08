@@ -5,4 +5,5 @@ export const userDetailsSelector = (state: StoreState) => ({
   token: state.auth.token,
   loadingData: state.auth.loadingData,
   loadingToken: state.auth.loadingToken,
+  signingOut: state.auth.signingOut,
 });

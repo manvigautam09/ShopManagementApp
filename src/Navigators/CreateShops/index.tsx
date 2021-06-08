@@ -5,6 +5,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   useGetUserDetailsHook,
   useFetchUserDetailsHook,
+  useSignOutUserHook,
 } from '../../store/hooks/authHook';
 
 import {
@@ -23,9 +24,10 @@ interface CreateShopScreenProps {
 
 const CreateShopScreen = (props: CreateShopScreenProps) => {
   const {navigation} = props;
+  const {signOut} = useSignOutUserHook();
   const {getShop} = useGetShopsListHook();
   const {fetchDetails} = useFetchUserDetailsHook();
-  const {name, loadingData} = useGetUserDetailsHook();
+  const {name, loadingData, signingOut} = useGetUserDetailsHook();
   const {shops, gettingShop, creatingShop} = useGetShopDetailsHook();
   const {shop, createShopModule, setShop, createShop, toggleCreateShop} =
     useCreateShopHook();
@@ -102,6 +104,11 @@ const CreateShopScreen = (props: CreateShopScreenProps) => {
       ) : (
         <Text>There are no shops yet</Text>
       )}
+      {!createShopModule && (
+        <View style={styles.alignSignOutButton}>
+          <Button title="SignOut" onPress={signOut} disabled={signingOut} />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -112,7 +119,7 @@ const styles = StyleSheet.create({
   createShopContainer: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#E0FFFF',
     padding: 10,
   },
   createShopButton: {
@@ -138,5 +145,12 @@ const styles = StyleSheet.create({
   shopListWidth: {
     width: '100%',
     flex: 1,
+  },
+  alignSignOutButton: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'flex-end',
+    width: '100%',
+    justifyContent: 'flex-end',
   },
 });

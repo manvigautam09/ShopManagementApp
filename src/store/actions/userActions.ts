@@ -44,3 +44,20 @@ export function loginSuccess(payload: {name: string; token: string}) {
     payload,
   };
 }
+
+export function signOutRequest() {
+  return <const>{
+    type: actionTypes.SIGN_OUT_REQUEST,
+  };
+}
+
+export function signOutSuccess() {
+  return <const>{
+    type: actionTypes.SIGN_OUT_SUCCESS,
+  };
+}
+export function signOutFailure() {
+  return <const>{
+    type: actionTypes.SIGN_OUT_FAILURE,
+  };
+}

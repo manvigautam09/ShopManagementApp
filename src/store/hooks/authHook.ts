@@ -11,6 +11,9 @@ import {
   getUserDataRequest,
   getUserDataSuccess,
   loginSuccess,
+  signOutFailure,
+  signOutRequest,
+  signOutSuccess,
 } from '../actions/userActions';
 import {userDetailsSelector} from '../selectors/userDetails';
 
@@ -76,4 +79,19 @@ export const useCheckIfUserLoggedInHook = () => {
   };
 
   return {fetchToken};
+};
+
+export const useSignOutUserHook = () => {
+  const dispatch = useDispatch();
+  const signOut = async () => {
+    dispatch(signOutRequest());
+    try {
+      await AsyncStorage.removeItem('@authToken');
+      await AsyncStorage.removeItem('@shops');
+      dispatch(signOutSuccess());
+    } catch (error) {
+      dispatch(signOutFailure());
+    }
+  };
+  return {signOut};
 };
