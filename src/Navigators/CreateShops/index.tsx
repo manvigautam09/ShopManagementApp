@@ -42,7 +42,11 @@ const CreateShopScreen = (props: CreateShopScreenProps) => {
 
   return (
     <SafeAreaView style={styles.createShopContainer}>
-      {loadingData ? <Text>LOADING ...</Text> : <Text>Welcome {name}</Text>}
+      {loadingData ? (
+        <Text>LOADING ...</Text>
+      ) : (
+        <Text style={styles.heading}>Welcome, {name}</Text>
+      )}
       <View style={styles.alignButton}>
         <Button
           title={createShopModule ? 'Cancel' : 'Create Shop'}
@@ -152,5 +156,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     width: '100%',
     justifyContent: 'flex-end',
+  },
+  heading: {
+    fontWeight: '500',
+    display: 'flex',
+    alignSelf: 'flex-start',
+    fontSize: 25,
   },
 });

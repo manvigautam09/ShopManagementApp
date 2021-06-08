@@ -45,9 +45,9 @@ const ProductsScreen = (props: ProductsScreenProps) => {
 
   return (
     <SafeAreaView style={styles.createProductContainer}>
-      <Text>{name}</Text>
+      <Text style={styles.heading}>{name}</Text>
       <View style={styles.descriptionView}>
-        <Text>{description}</Text>
+        <Text style={styles.descriptiveText}>{description}</Text>
       </View>
       <View style={styles.alignAddProductButton}>
         <Button
@@ -107,6 +107,8 @@ const styles = StyleSheet.create({
   },
   descriptionView: {
     marginVertical: 10,
+    display: 'flex',
+    alignSelf: 'flex-start',
   },
   alignAddProductButton: {
     display: 'flex',
@@ -132,5 +134,18 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 10,
     flex: 1,
+  },
+  heading: {
+    fontWeight: '500',
+    display: 'flex',
+    alignSelf: 'flex-start',
+    fontSize: 25,
+    fontFamily: 'Times New Roman',
+    marginLeft: 10,
+  },
+  descriptiveText: {
+    fontFamily: 'Times New Roman',
+    fontSize: 20,
+    marginLeft: 10,
   },
 });
