@@ -2,7 +2,7 @@ import {useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {ROUTE_CONSTANTS} from '../../utils/routeConstants';
+
 import {
   getTokenFromAsyncStorageFailure,
   getTokenFromAsyncStorageRequest,
@@ -10,23 +10,24 @@ import {
   getUserDataFailure,
   getUserDataRequest,
   getUserDataSuccess,
+  loginSuccess,
+  signOutFailure,
+  signOutRequest,
+  signOutSuccess,
 } from '../actions/userActions';
 import {userDetailsSelector} from '../selectors/userDetails';
 
 export const useAuthHook = () => {
+  const dispatch = useDispatch();
   const [loggingIn, setLoggingIn] = useState(false);
-  const loginUser = async (
-    userName: string,
-    password: string,
-    navigation: any,
-  ) => {
+  const loginUser = async (userName: string, password: string) => {
     setLoggingIn(true);
     const authToken = `${userName}${password}`.split('').reverse().join('');
     try {
       await AsyncStorage.setItem('@authToken', authToken);
       await AsyncStorage.setItem('@userName', userName);
       setLoggingIn(false);
-      navigation.navigate(ROUTE_CONSTANTS.CREATE_SHOP);
+      dispatch(loginSuccess({name: userName, token: authToken}));
     } catch (e) {
       setLoggingIn(false);
     }
@@ -69,6 +70,8 @@ export const useCheckIfUserLoggedInHook = () => {
       const authToken = await AsyncStorage.getItem('@authToken');
       if (authToken && authToken.length > 0) {
         dispatch(getTokenFromAsyncStorageSuccess({token: authToken}));
+      } else {
+        dispatch(getTokenFromAsyncStorageFailure());
       }
     } catch (e) {
       dispatch(getTokenFromAsyncStorageFailure());
@@ -76,4 +79,19 @@ export const useCheckIfUserLoggedInHook = () => {
   };
 
   return {fetchToken};
+};
+
+export const useSignOutUserHook = () => {
+  const dispatch = useDispatch();
+  const signOut = async () => {
+    dispatch(signOutRequest());
+    try {
+      await AsyncStorage.removeItem('@authToken');
+      await AsyncStorage.removeItem('@shops');
+      dispatch(signOutSuccess());
+    } catch (error) {
+      dispatch(signOutFailure());
+    }
+  };
+  return {signOut};
 };

@@ -5,6 +5,10 @@ import {
   getUserDataFailure,
   getUserDataRequest,
   getUserDataSuccess,
+  loginSuccess,
+  signOutFailure,
+  signOutRequest,
+  signOutSuccess,
 } from '../../actions/userActions';
 
 export interface AuthState {
@@ -12,9 +16,14 @@ export interface AuthState {
   loadingData: boolean;
   loadingToken: boolean;
   token: string;
+  signingOut: boolean;
 }
 
 export type AuthActions = ReturnType<
+  | typeof loginSuccess
+  | typeof signOutRequest
+  | typeof signOutSuccess
+  | typeof signOutFailure
   | typeof getUserDataRequest
   | typeof getUserDataSuccess
   | typeof getUserDataFailure
