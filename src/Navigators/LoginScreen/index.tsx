@@ -2,13 +2,8 @@ import React, {useMemo, useState} from 'react';
 import {SafeAreaView, TextInput, StyleSheet, Button, Text} from 'react-native';
 
 import {useAuthHook} from '../../store/hooks/authHook';
-interface LoginScreenProps {
-  navigation: any;
-}
 
-const LoginScreen = (props: LoginScreenProps) => {
-  const {navigation} = props;
-
+const LoginScreen = () => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const {loginUser, loggingIn} = useAuthHook();
@@ -41,7 +36,7 @@ const LoginScreen = (props: LoginScreenProps) => {
           color="blue"
           title={'Login'}
           disabled={loginButtonDisabled || loggingIn}
-          onPress={() => loginUser(userName, password, navigation)}
+          onPress={() => loginUser(userName, password)}
         />
       )}
     </SafeAreaView>

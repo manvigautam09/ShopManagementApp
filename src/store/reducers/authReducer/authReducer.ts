@@ -34,6 +34,10 @@ export default (state = initialState, action: AuthActions) => {
       return {...state, loadingToken: false};
     }
 
+    case actionTypes.USER_LOGIN_SUCCESS: {
+      return {...state, name: action.payload.name, token: action.payload.token};
+    }
+
     default:
       return state;
   }

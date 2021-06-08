@@ -2,10 +2,7 @@ import {useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  NAVIGATION_CONSTANTS,
-  ROUTE_CONSTANTS,
-} from '../../utils/routeConstants';
+
 import {
   getTokenFromAsyncStorageFailure,
   getTokenFromAsyncStorageRequest,
@@ -13,23 +10,21 @@ import {
   getUserDataFailure,
   getUserDataRequest,
   getUserDataSuccess,
+  loginSuccess,
 } from '../actions/userActions';
 import {userDetailsSelector} from '../selectors/userDetails';
 
 export const useAuthHook = () => {
+  const dispatch = useDispatch();
   const [loggingIn, setLoggingIn] = useState(false);
-  const loginUser = async (
-    userName: string,
-    password: string,
-    navigation: any,
-  ) => {
+  const loginUser = async (userName: string, password: string) => {
     setLoggingIn(true);
     const authToken = `${userName}${password}`.split('').reverse().join('');
     try {
       await AsyncStorage.setItem('@authToken', authToken);
       await AsyncStorage.setItem('@userName', userName);
       setLoggingIn(false);
-      navigation.navigate(ROUTE_CONSTANTS.CREATE_SHOP);
+      dispatch(loginSuccess({name: userName, token: authToken}));
     } catch (e) {
       setLoggingIn(false);
     }

@@ -37,3 +37,10 @@ export function getTokenFromAsyncStorageFailure() {
     type: actionTypes.GET_TOKEN_FROM_ASYNC_STORAGE_FAILURE,
   };
 }
+
+export function loginSuccess(payload: {name: string; token: string}) {
+  return <const>{
+    type: actionTypes.USER_LOGIN_SUCCESS,
+    payload,
+  };
+}

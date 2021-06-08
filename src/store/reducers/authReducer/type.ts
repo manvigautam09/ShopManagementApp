@@ -5,6 +5,7 @@ import {
   getUserDataFailure,
   getUserDataRequest,
   getUserDataSuccess,
+  loginSuccess,
 } from '../../actions/userActions';
 
 export interface AuthState {
@@ -15,6 +16,7 @@ export interface AuthState {
 }
 
 export type AuthActions = ReturnType<
+  | typeof loginSuccess
   | typeof getUserDataRequest
   | typeof getUserDataSuccess
   | typeof getUserDataFailure
