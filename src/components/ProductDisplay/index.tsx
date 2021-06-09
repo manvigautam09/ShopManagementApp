@@ -50,10 +50,12 @@ const ProductDisplay = (props: ProductDisplayProps) => {
               setProduct(productDetail);
               toggleCreateProduct();
             }}>
-            E
+            Edit
           </Text>
-          <Text onPress={() => deleteProduct(shopId, productDetail.prId)}>
-            D
+          <Text
+            onPress={() => deleteProduct(shopId, productDetail.prId)}
+            style={styles.deleteText}>
+            Delete
           </Text>
         </View>
       </View>
@@ -85,5 +87,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
+  },
+  deleteText: {
+    marginLeft: 20,
   },
 });
